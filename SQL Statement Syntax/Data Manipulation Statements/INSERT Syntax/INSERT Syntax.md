@@ -1,0 +1,81 @@
+# 13.2.6 INSERT Syntax
+
+- [13.2.6 INSERT Syntax](#1326-insert-syntax)
+    - [语法](#%E8%AF%AD%E6%B3%95)
+    - [](#)
+    - [Reference](#reference)
+
+## 语法
+
+```
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [(col_name [, col_name] ...)]
+    {VALUES | VALUE} (value_list) [, (value_list)] ...
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    SET assignment_list
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+INSERT [LOW_PRIORITY | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [(col_name [, col_name] ...)]
+    SELECT ...
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+value:
+    {expr | DEFAULT}
+
+value_list:
+    value [, value] ...
+
+assignment:
+    col_name = value
+
+assignment_list:
+    assignment [, assignment] ...
+```
+
+## 
+
+`INSERT`向一个已存在的表中插入新的行数据.
+`INSERT ... VALUES`和`INSERT ... SET`用于插入特定值的行数据;
+`INSERT ... SELECT`则用于将从指定表查询到的结果集插入到表中.
+
+`INSERT`中使用`ON DUPLICATE KEY UPDATE`时, 会检查`UNIQUE KEY`和`PRIMARY KEY`是否存在重复的行数据, 
+如果存在, 则更新行数据, 否则插入新的行数据.
+
+插入行数据到表需要以下权限:
+
+- (必须)INSERT权限
+- 当使用`ON DUPLICATE KEY UPDATE`时, 需要UPDATE权限
+- 当使用`SELECT`查询语句或读取列属性时, 需要SELECT权限
+
+当插入行数据到分表中时, 可以指定哪些分表可以用来添加新增的行数据, 这些分表使用**,**隔开.
+当行数据无法添加到这些指定的分表时, 会提示错误**Found a row not matching the given partition set**.
+分表相关内容详见[Partition Selection](https://dev.mysql.com/doc/refman/8.0/en/partitioning-selection.html)
+
+当插入的行数据可以**重写**老的行数据时, 可以使用`REPLACE`来代替`INSERT`.
+`REPLACE`和`INSERT IGNORE`类似, 当老的行数据和新的行数据的`UNIQUE KEY`相同时, 新的行数据会覆盖老的行数据, 而不是放弃插入.
+详见[REPLACE Syntax](https://dev.mysql.com/doc/refman/8.0/en/replace.html)
+
+**tbl_name**指明行数据将被插入到哪个表中.
+
+**col_name**列表中的列名必须用`,`分割, 用来指明来源于`VALUES`或者`SELECT`查询结果集的行数据必须包含哪些数据.
+如果不指明列名列表, 则插入的行数据必须提供表定义中所有列的值. 可以通过`DESCRIBE`(缩写`desc`) **tbl_name**得到表定义.
+**SET**条件需要显示提供列名和值, 格式为`col_name=col_value`
+
+列值的来源可以有以下几种方式:
+
+- 如果**strict SQL mode**没有开启, 任何没有显示声明的列会使用默认值作为列值.
+默认值详见[Data Type Default Values](https://dev.mysql.com/doc/refman/8.0/en/data-type-defaults.html)
+和[Constraints on Invalid Data](https://dev.mysql.com/doc/refman/8.0/en/constraint-invalid-data.html)
+
+## Reference
+
+

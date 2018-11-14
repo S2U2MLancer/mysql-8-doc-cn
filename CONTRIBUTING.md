@@ -23,9 +23,14 @@
 
 ## 如何创建demo
 
-1. 在**.demo目录**下根据翻译文档的章节号创建demo的sql文件
-2. 所有的sql文件需要遵循[flyway]()的要求, 能够被flyway执行, 
+1. 在**.demo目录**下根据翻译文档的路径创建demo的sql文件, 
+如果有多个文件, 则创建目录, 根据demo内容创建sql文件
+2. 所有的sql文件需要遵循[flyway][]的要求, 能够被flyway执行, 
 我们会通过pipeline使用mysql的docker镜像进行验证
-3. 每篇源文件的demo对应一个flyway的sql, sql文件的命名为**V<源文件的章节号>__<源文档的标题, 空格使用`-`代替>.sql**
-4. 每个demo需要创建**独立的数据库**, 数据库名同源文档的标题, 使用**小写**, 空格或特殊字符使用`_`代替, 
-例如INSERT Syntax的数据库为insert_syntax
+3. 每篇源文件的demo对应一个flyway的sql, sql文件的命名为**V<源文件的章节号>__<源文件名, 空格使用`-`代替>.sql**
+4. 每个demo需要创建相关的**独立的表**, 表名以文件名为前缀, 使用**小写**, 空格或特殊字符使用`_`代替, 
+issues#3 translate insert syntax doc
+例如INSERT Syntax的数据库表名以insert_syntax为前缀.
+
+---
+
