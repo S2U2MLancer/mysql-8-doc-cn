@@ -1,3 +1,4 @@
+-- 准备表和数据
 create table insert_syntax_demo (
   id int unsigned not null primary key auto_increment,
   user_name varchar(255) not null,
