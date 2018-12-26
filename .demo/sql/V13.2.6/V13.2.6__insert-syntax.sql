@@ -67,3 +67,23 @@ values
 ('test9', 1, 18, now(), null),
 ('test10', 0, 18, now(), null);
 
+-- affected-row的值
+-- 新行为1
+insert into insert_syntax_tb1
+(`user_name`, `sex`, `age`, `born_time`, `dead_time`)
+values
+('test11', 0, 18, now(), null);
+
+-- 更新已有行为2
+insert into insert_syntax_tb1
+(`user_name`, `sex`, `age`, `born_time`, `dead_time`)
+values
+('test11', 0, 18, now(), null)
+ON DUPLICATE KEY update `age`=20;
+
+-- 插入时, 不更新重复行为0
+insert into insert_syntax_tb1
+(`user_name`, `sex`, `age`, `born_time`, `dead_time`)
+values
+('test11', 0, 18, now(), null)
+ON DUPLICATE KEY update `sex`=0;

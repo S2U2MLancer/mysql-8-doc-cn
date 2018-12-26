@@ -19,7 +19,7 @@ translate [mysql 8.0](https://dev.mysql.com/doc/refman/8.0/en/) to Chinese
 在根目录下运行docker-compose来创建mysql服务以及相关的数据库
 
 ```
-$ docker-compose up
+$ docker-compose up -V
 ```
 
 下载flyway, 详见: [Download and installation](https://flywaydb.org/documentation/commandline/#download-and-installation)
