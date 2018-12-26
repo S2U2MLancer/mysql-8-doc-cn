@@ -11,7 +11,7 @@
 5. 在翻译文档的同时, 须同时提供相关的demo在**.demo目录下**, 详见[如何创建demo](#如何创建demo)
 6. 在翻译文档开头, 添加原文路径
 7. 如果无法翻译的部分, 请留下原文.
-8. 提交Pull Request, 需要在comment里面写入`issues(#<issue_id>)`, 用于链接相关的issue
+8. 提交Pull Request, 需要在comment里面写入`issues#<issue_id>`, 用于链接相关的issue
 9. 经团队审核通过后, 会被合并到master分支; 否则会注明修改项, 打回修改.
 
 ## 如何创建issue
@@ -35,3 +35,4 @@ issues#3 translate insert syntax doc
 
 ---
 
+[flyway]: https://flywaydb.org
